@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A cinematic fantasy birthday experience inspired by a glowing lantern fairytale aesthetic." />
+  <title>Happy Birthday ✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <!-- =========================================================
+       CINEMATIC LOADER
+       ========================================================= -->
+  <div id="loader" class="loader active" aria-live="polite">
+    <div class="loader__veil"></div>
+    <div class="loader__lanterns" id="loaderLanterns"></div>
+    <div class="loader__particles" id="loaderParticles"></div>
+    <div class="loader__content">
+      <div class="loader__halo"></div>
+      <p class="loader__eyebrow">A magical journey is beginning</p>
+      <h1 class="loader__title">Lighting the lanterns...</h1>
+      <div class="loader__bar-wrap">
+        <div class="loader__bar"></div>
+      </div>
+      <p class="loader__hint">Gathering memories, glow, and a little birthday magic.</p>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MUSIC CONTROLS
+       Replace src with your own music file in assets/audio/
+       ========================================================= -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="assets/audio/fantasy-theme.mp3" type="audio/mpeg" />
+  </audio>
+
+  <button class="music-toggle glass-panel" id="musicToggle" aria-label="Toggle background music">
+    <span class="music-toggle__icon">♫</span>
+    <span class="music-toggle__label">Music</span>
+  </button>
+
+  <div class="volume-panel glass-panel" id="volumePanel">
+    <label for="volumeRange">Volume</label>
+    <input id="volumeRange" type="range" min="0" max="1" step="0.01" value="0.45" />
+  </div>
+
+  <!-- Custom cursor -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <div class="cursor-trail" id="cursorTrail"></div>
+
+  <!-- Floating global atmosphere -->
+  <div class="global-vignette"></div>
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- =========================================================
+       MAIN CONTENT
+       ========================================================= -->
+  <main id="smooth-content">
+    <!-- HERO / LANTERN WORLD -->
+    <section class="hero section" id="hero">
+      <div class="hero__sky-gradient"></div>
+      <div class="hero__mist hero__mist--1"></div>
+      <div class="hero__mist hero__mist--2"></div>
+      <div class="hero__clouds" id="heroClouds"></div>
+      <div class="hero__stars" id="heroStars"></div>
+      <div class="hero__lanterns" id="heroLanterns"></div>
+      <div class="hero__fireflies" id="heroFireflies"></div>
+      <div class="hero__water"></div>
+      <div class="hero__reflection"></div>
+
+      <div class="hero__content content-shell">
+        <p class="section-kicker">A birthday written in light</p>
+        <h1 class="hero__title split-lines">Happy Birthday <span data-config="name">[ADD NAME]</span> ✨</h1>
+        <p class="hero__subtitle" data-config="subtitle">[ADD SUBTITLE]</p>
+        <div class="hero__actions">
+          <button class="magic-button" id="visitTowerBtn">
+            <span>Let’s Visit The Tower ✨</span>
+            <em class="magic-button__glow"></em>
+          </button>
+        </div>
+        <p class="hero__scroll-hint">Scroll, hover, and click to uncover the magic.</p>
+      </div>
+    </section>
+
+    <!-- TOWER INTRO -->
+    <section class="tower-intro section" id="towerIntro">
+      <div class="tower-intro__sky"></div>
+      <div class="tower-intro__mist tower-intro__mist--left"></div>
+      <div class="tower-intro__mist tower-intro__mist--right"></div>
+      <div class="tower-intro__lanterns" id="towerLanterns"></div>
+      <div class="tower-wrap">
+        <div class="tower">
+          <div class="tower__light"></div>
+          <div class="tower__window">
+            <div class="tower__silhouette"></div>
+            <div class="tower__glow"></div>
+          </div>
+          <div class="tower__stone tower__stone--1"></div>
+          <div class="tower__stone tower__stone--2"></div>
+          <div class="tower__stone tower__stone--3"></div>
+        </div>
+      </div>
+      <div class="tower-caption content-shell">
+        <p class="section-kicker">The memories begin at the tower window</p>
+        <h2>Follow the glowing strand through moments that matter most.</h2>
+      </div>
+    </section>
+
+    <!-- MEMORY JOURNEY -->
+    <section class="memory-journey section" id="memoryJourney">
+      <div class="memory-journey__bg-layer memory-journey__bg-layer--back"></div>
+      <div class="memory-journey__bg-layer memory-journey__bg-layer--mid"></div>
+      <div class="memory-journey__bg-layer memory-journey__bg-layer--front"></div>
+      <div class="memory-journey__glow"></div>
+      <div class="memory-journey__hair-wrap">
+        <svg class="hair-svg" viewBox="0 0 1200 6200" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+          <defs>
+            <linearGradient id="hairGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#ffe79a" />
+              <stop offset="18%" stop-color="#ffd465" />
+              <stop offset="52%" stop-color="#f5b942" />
+              <stop offset="100%" stop-color="#9d5b1c" />
+            </linearGradient>
+            <filter id="hairGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="18" result="blur"></feGaussianBlur>
+              <feColorMatrix in="blur" type="matrix"
+                values="1 0 0 0 0
+                        0 0.85 0 0 0
+                        0 0.3 0 0 0
+                        0 0 0 1 0"></feColorMatrix>
+            </filter>
+          </defs>
+
+          <path id="hairGlowPath" d="M630 20
+            C700 180, 540 320, 615 520
+            C710 760, 485 930, 595 1180
+            C710 1420, 480 1660, 620 1910
+            C770 2170, 510 2420, 630 2710
+            C750 3010, 480 3320, 610 3640
+            C770 4030, 450 4390, 610 4730
+            C745 5010, 510 5300, 620 5600
+            C695 5790, 640 5910, 580 6020
+            C525 6120, 450 6125, 420 6070
+            C360 5955, 445 5855, 515 5830
+            C650 5780, 800 5920, 795 6080"
+            fill="none" stroke="rgba(255, 213, 110, 0.34)" stroke-width="46" filter="url(#hairGlow)"></path>
+
+          <path id="hairPath" d="M630 20
+            C700 180, 540 320, 615 520
+            C710 760, 485 930, 595 1180
+            C710 1420, 480 1660, 620 1910
+            C770 2170, 510 2420, 630 2710
+            C750 3010, 480 3320, 610 3640
+            C770 4030, 450 4390, 610 4730
+            C745 5010, 510 5300, 620 5600
+            C695 5790, 640 5910, 580 6020
+            C525 6120, 450 6125, 420 6070
+            C360 5955, 445 5855, 515 5830
+            C650 5780, 800 5920, 795 6080"
+            fill="none" stroke="url(#hairGradient)" stroke-width="24" stroke-linecap="round"></path>
+
+          <path id="hairHighlight" d="M642 25
+            C704 195, 552 328, 624 523
+            C696 734, 500 948, 606 1187
+            C700 1408, 500 1658, 630 1918
+            C750 2160, 535 2430, 645 2715
+            C730 2995, 515 3332, 628 3648
+            C748 4014, 478 4398, 626 4737
+            C732 4995, 537 5305, 634 5608"
+            fill="none" stroke="rgba(255,255,255,0.32)" stroke-width="5" stroke-linecap="round"></path>
+        </svg>
+
+        <div class="spark-stream" id="sparkStream"></div>
+        <div class="memory-cards" id="memoryCards"></div>
+      </div>
+    </section>
+
+    <!-- BOTTOM / FINAL CTA -->
+    <section class="bottom-grove section" id="bottomGrove">
+      <div class="bottom-grove__fog"></div>
+      <div class="bottom-grove__lanterns" id="bottomLanterns"></div>
+      <div class="bottom-grove__hair-pool"></div>
+      <div class="bottom-grove__content content-shell">
+        <p class="section-kicker">Where the glow comes to rest</p>
+        <h2>The light settles softly, but there’s still one more thing waiting.</h2>
+        <button class="magic-button magic-button--warm" id="openLetterBtn">
+          <span>One Last Thing...</span>
+          <em class="magic-button__glow"></em>
+        </button>
+      </div>
+    </section>
+
+    <!-- ENDING SCENE -->
+    <section class="ending-scene section" id="endingScene">
+      <div class="ending-scene__sky"></div>
+      <div class="ending-scene__lanterns" id="endingLanterns"></div>
+      <div class="ending-scene__sparkles" id="endingSparkles"></div>
+      <div class="ending-scene__content content-shell">
+        <p class="section-kicker">And all the lanterns rise</p>
+        <h2>Happy Birthday <span data-config="name2">[ADD NAME]</span> ✨</h2>
+        <p>May every year ahead glow with joy, wonder, warmth, and the people who love you most.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Tiny hidden magic note -->
+  <div class="mini-message" id="miniMessage"></div>
+
+  <!-- Memory modal -->
+  <div class="memory-modal" id="memoryModal" aria-hidden="true">
+    <div class="memory-modal__backdrop"></div>
+    <div class="memory-modal__card glass-panel">
+      <button class="memory-modal__close" id="closeMemoryModal" aria-label="Close memory">×</button>
+      <div class="memory-modal__image-wrap">
+        <img id="memoryModalImage" src="" alt="Memory preview" loading="lazy" />
+      </div>
+      <div class="memory-modal__content">
+        <p class="memory-modal__eyebrow">A little glowing memory</p>
+        <h3 id="memoryModalTitle">Memory Title</h3>
+        <p id="memoryModalMessage">Memory message here.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen final letter -->
+  <section class="letter-overlay" id="letterOverlay" aria-hidden="true">
+    <div class="letter-overlay__backdrop"></div>
+    <div class="letter-overlay__lanterns" id="letterLanterns"></div>
+    <button class="letter-overlay__close" id="closeLetterBtn" aria-label="Close letter">Close</button>
+    <div class="letter-paper">
+      <p class="letter-paper__intro">For you, with all my heart</p>
+      <h2>To <span data-config="name3">[ADD NAME]</span> ✨</h2>
+      <div class="letter-paper__body" id="typedLetter"></div>
+      <button class="magic-button letter-paper__finish" id="finishJourneyBtn">
+        <span>Release The Lanterns ✨</span>
+        <em class="magic-button__glow"></em>
+      </button>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       CONTENT CONFIGURATION
+       Edit here or in assets/js/app.js default config.
+       Replace image paths with your own photos.
+       ========================================================= -->
+  <script>
+    window.BIRTHDAY_CONFIG = {
+      name: "[ADD NAME]",
+      subtitle: "[ADD SUBTITLE]",
+      finalLetter: `Dear [ADD NAME],\n\n[ADD LETTER]\n\nWith love always,\n[YOUR NAME]`,
+      hiddenMessages: [
+        "You make ordinary days feel magical.",
+        "A little light for your special day.",
+        "Another lantern, another wish for you.",
+        "The glow gets brighter wherever you are.",
+        "Made with love, wonder, and birthday magic."
+      ],
+      memories: [
+        {
+          title: "Memory One",
+          image: "assets/images/photo-1.jpg",
+          message: "[ADD MESSAGE 1]"
+        },
+        {
+          title: "Memory Two",
+          image: "assets/images/photo-2.jpg",
+          message: "[ADD MESSAGE 2]"
+        },
+        {
+          title: "Memory Three",
+          image: "assets/images/photo-3.jpg",
+          message: "[ADD MESSAGE 3]"
+        },
+        {
+          title: "Memory Four",
+          image: "assets/images/photo-4.jpg",
+          message: "[ADD MESSAGE 4]"
+        },
+        {
+          title: "Memory Five",
+          image: "assets/images/photo-5.jpg",
+          message: "[ADD MESSAGE 5]"
+        },
+        {
+          title: "Memory Six",
+          image: "assets/images/photo-6.jpg",
+          message: "[ADD MESSAGE 6]"
+        },
+        {
+          title: "Memory Seven",
+          image: "assets/images/photo-7.jpg",
+          message: "[ADD MESSAGE 7]"
+        }
+      ]
+    };
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
